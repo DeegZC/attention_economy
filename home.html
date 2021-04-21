@@ -2,9 +2,8 @@
 <style>
 .flip-card {
   background-color: transparent;
-  width: 300px;
-  height: 200px;
-  border: 1px solid #f1f1f1;
+  width: 500px;
+  height: 500px;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 
@@ -60,16 +59,16 @@
       
      <link rel="stylesheet" href=
 "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='red_eye.png') }}">
     </head>
-    <body style="background-color:#532480;">
+    <body style="background-color:#532480;color:white;">
     <center>
         <h1>The Attention Economy</h1>
     <div class="container">
     <div class="flip-card">
         <div class="flip-card-inner">
             <div class="flip-card-front">
-            <img src="{{url_for('static',filename=image)}}" alt="Avatar" style="width:500px;height:500px;"class="center">
+            <img src="{{url_for('static',filename=image)}}" alt="Avatar" style="height:500px;"class="center">
             </div>
             <div class="flip-card-back">
             <p>{{caption}}</p>
