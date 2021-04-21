@@ -33,14 +33,18 @@
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: #bbb;
+  background-color: white;
   color: black;
 }
 
 /* Style the back side */
 .flip-card-back {
-  background-color: dodgerblue;
-  color: white;
+  display:flex; 
+  background-color: white;
+  color: black; 
+  justify-content: center;
+  align-items: center; 
+  padding: 30px; 
   transform: rotateY(180deg);
 
 .center {
@@ -59,7 +63,7 @@
       
      <link rel="stylesheet" href=
 "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='red_eye.png') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='red_eye.jpeg') }}">
     </head>
     <body style="background-color:#532480;color:white;">
     <center>
