@@ -20,7 +20,7 @@ captions = {'ayn_rand': 'I, Ayn Rand, "will never live for the sake of another m
 def home():
     image = random.choice(list(captions.keys()))
     html = render_template('home.html',
-            image=image+'.jpeg',
+            image='images/'+image+'.jpeg',
             caption=captions[image])
     response = make_response(html)
     return response
