@@ -1,5 +1,5 @@
 from sys import argv, stderr
-from flask import Flask, make_response, url_for
+from flask import Flask, make_response, url_for, request
 from flask import render_template
 import random
 
@@ -22,7 +22,9 @@ captions = \
 @app.route('/home', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def home():
-    image = random.choice(list(captions.keys()))
+    image = request.args.get('image')
+    if (image == None):
+        image = random.choice(list(captions.keys()))
     html = render_template('home.html',
             image=image+'.jpeg',
             caption=captions[image])
