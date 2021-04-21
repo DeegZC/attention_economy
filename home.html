@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Attention Economy</title>
+
+     <meta name="viewport"
+           content="width=device-width, initial-scale=1">
+      
+     <link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  
+    </head>
+    <body>
+    <div class="container bg-primary">
+         <center>
+        <h1>Registrar's Office: Class Search</h1>
+        </center>
+        
+        <div class="row">
+            <div class="col-sm-3">
+                <input type="text" id="deptInput" class="form-control" placeholder="Department">
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="numInput" class="form-control" placeholder="Number">
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="areaInput" class="form-control" placeholder="Area">
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="titleInput" class="form-control" placeholder="Title">
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="container">
+        <span id="overviewsSpan"></span>
+    </div>
+    <center>
+    <img src="{{image}}"></img>
+    {{caption}}
+    </center>
+
+    {% include 'footer.html' %}
+    </body>
+</html>
