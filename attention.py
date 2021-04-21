@@ -1,5 +1,5 @@
 from sys import argv, stderr
-from flask import Flask, request, make_response
+from flask import Flask, make_response, url_for
 from flask import render_template
 import random
 
@@ -20,7 +20,7 @@ captions = {'ayn_rand': 'I, Ayn Rand, "will never live for the sake of another m
 def home():
     image = random.choice(list(captions.keys()))
     html = render_template('home.html',
-            image=str('images/'+image+'.jpeg'),
+            image=url_for('images', filename=image+'.jpeg'),
             caption=captions[image])
     response = make_response(html)
     return response
