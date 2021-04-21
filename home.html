@@ -60,16 +60,16 @@
       
      <link rel="stylesheet" href=
 "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
-    <body style="background-color:#f0ca6c;">
+    <body style="background-color:#532480;">
     <center>
         <h1>The Attention Economy</h1>
     <div class="container">
     <div class="flip-card">
         <div class="flip-card-inner">
             <div class="flip-card-front">
-            <img src="{{url_for('static',filename=image)}}" alt="Avatar" style="width:300px;height:300px;"class="center">
+            <img src="{{url_for('static',filename=image)}}" alt="Avatar" style="width:500px;height:500px;"class="center">
             </div>
             <div class="flip-card-back">
             <p>{{caption}}</p>
@@ -77,7 +77,11 @@
         </div>
     </div>
     </div>
-
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     {% include 'footer.html' %}
     </body>
 </html>
