@@ -18,7 +18,7 @@
 }
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
-.scene:hover .card {
+.card.is-flipped {
   transform: rotateY(180deg);
 }
 
@@ -78,6 +78,16 @@
   background-color:black;
   border-color:white;
 }
+
+.image{
+  width:500px;
+  height:500px;
+  object-fit:contain;
+}
+
+.image.zoom{
+  transform: scale(2);
+}
 </style>
 <html>
     <head>
@@ -95,9 +105,9 @@
         <h1>Scenes of Attention</h1>
     <br>
     <div class="scene">
-        <div class="card">
+        <div class="card" id='card'>
             <div class="flip-card-front">
-            <img src="{{url_for('static',filename=image)}}" alt="Avatar" style="width:500px;height:500px;object-fit:contain;"class="center">
+            <img src="{{url_for('static',filename=image)}}" alt="Avatar" class="center image" id='image'>
             </div>
             <div class="flip-card-back">
               <p class='caption'>{{info['caption']}}</p>
@@ -116,4 +126,32 @@
     <br>
     {% include 'footer.html' %}
     </body>
+    <script>
+    var card = document.querySelector('.card');
+    var timer = 0;
+    var prevent = false;
+    var large = false;
+    var front = true;
+    console.log(card);
+    card.onclick = function() {
+      timer = setTimeout(function() {
+        if (!prevent && !large) {
+          console.log('flip');
+          card.classList.toggle('is-flipped');
+          front = !front;
+        }
+        prevent = false;
+      },400);
+    }
+    var myImg = document.querySelector("#image");
+    card.ondblclick = function (e) {
+      clearTimeout(timer);
+      prevent = true;
+      if(front){
+        console.log('zoom');
+        myImg.classList.toggle('zoom');
+        large = !large;
+      }
+    }
+    </script>
 </html>
