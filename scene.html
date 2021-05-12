@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<style>
+.scene {
+  background-color: transparent;
+  width: 500px;
+  height: 500px;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.card {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1.2s;
+  transform-style: preserve-3d;
+  z-index:100;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: white;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: white;
+  color: black;
+  padding: 30px; 
+  transform: rotateY(180deg);
+}
+.caption{
+  font-size:17px;
+  top:5px;
+  left:5px;
+  right:5px;
+}
+.question{
+  font-size:20px;
+  top:50%;
+  text-align: center;
+}
+.source {
+  font-size:12px;
+  position:absolute;
+  bottom:0px;
+  left:5px;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.refresh{
+  background-color:white;
+  color:black;
+  transition: .6s;
+}
+
+.arrow{
+  width: 50px;
+  height: 30px;
+  padding: 0px 0px 0px 0px !important;
+  font-weight: bold !important;
+  z-index: -1 !important;
+}
+
+.refresh:hover{
+  color:white !important;
+  background-color:black;
+  border-color:white;
+}
+
+.image{
+  width:500px;
+  height:500px;
+  object-fit:contain;
+}
+
+.card.zoom{
+  transform: scale(1.7) translate(0px,50px);
+}
+</style>
+<html>
+    <head>
+        <title>Scenes of Attention</title>
+
+     <meta name="viewport"
+           content="width=device-width, initial-scale=1">
+      
+     <link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='red_eye.png') }}">
+    </head>
+    <body style="background-color:black;color:white;">
+    <center>
+        <h1>Scenes of Attention</h1>
+    <br>
+    <div style='transform-style: preserve-3d;'>
+
+    <div class="scene">
+        <div class="card" id='card'>
+            <div class="flip-card-front">
+              <img src="{{url_for('static',filename='Images/'+image['File Name']+'.jpeg')}}" alt="Avatar" class="center image" id='image'>
+            </div>
+            <div class="flip-card-back">
+              <p class='caption'>{{image['Caption']}}</p>
+              <br>
+              <p class='question'><strong>{{image['Question']}}</strong></p>
+              <p class='source'>{{image['Source']}}</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    {%if (order and index)%}
+      <div class="row">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-3">
+          {%if index|int > 0%}
+              <form action='/scene' method='get'>
+                <input type="submit" class='arrow btn btn-lg refresh' value="<<" id='prev'>
+                <input type="hidden" name="order" value="{{order}}">
+                <input type="hidden" name="index" value="{{index|int-1}}">
+              </form>
+            <br>
+          {%endif%}
+        </div>
+        <div class="col-sm-3">
+          {%if index|int < 67%}
+            <form action='/scene' method='get'>
+              <input type="submit" class='arrow btn btn-lg refresh' value=">>" id='next'>
+              <input type="hidden" name="order" value="{{order}}">
+              <input type="hidden" name="index" value="{{index|int+1}}">
+            </form>
+          {%endif%}
+        </div>
+      </div>
+    {%else%}
+        <form action='/scene' method='get'>
+          <input type="submit" class='btn btn-lg refresh' value="Refresh" id='refresh'>
+        </form>
+    {%endif%}
+    <br>
+    <h3 style='text-align:center;'>Mode</h3>
+    <div class="row">
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-2">
+        <form action='/scene' method='get'>
+              <input type="submit" class='btn btn-lg refresh' value="Random" id='random' style='width:140px'>
+        </form>
+      </div>
+      <div class="col-sm-2">
+        <form action='/scene' method='get'>
+              <input type="submit" class='btn btn-lg refresh' value="Chronological" id='chronological' style='width:140px'>
+              <input type="hidden" name="order" value="chronological">
+              <input type="hidden" name="index" value="0">
+        </form>
+      </div>
+    </div>
+
+    </div>
+    <br>
+    </body>
+    <script>
+    var card = document.querySelector('.card');
+    var timer = 0;
+    var prevent = false;
+    var large = false;
+    var front = true;
+    //console.log(card);
+    card.onclick = function() {
+      timer = setTimeout(function() {
+        if (!prevent && !large) {
+          console.log('flip');
+          card.classList.toggle('is-flipped');
+          front = !front;
+        }
+        prevent = false;
+      },400);
+    }
+    card.ondblclick = function (e) {
+      clearTimeout(timer);
+      prevent = true;
+      if (front){
+        console.log('zoom');
+        let p = document.getElementById('prev');
+        let n = document.getElementById('next');
+        let r = document.getElementById('random');
+        let c = document.getElementById('chronological');
+        if (!large){
+          if (p != null)p.style.opacity=0;
+          if (n != null)n.style.opacity=0;
+          r.style.opacity=0;
+          c.style.opacity=0;
+          //console.log(p,n);
+        } else{
+          if (p != null)p.style.opacity=1;
+          if (n != null)n.style.opacity=1;
+          r.style.opacity=1;
+          c.style.opacity=1;
+        }
+        card.classList.toggle('zoom');
+        large = !large;
+      }
+    }
+    </script>
+</html>

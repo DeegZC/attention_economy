@@ -1,67 +1,5 @@
 <!DOCTYPE html>
 <style>
-.scene {
-  background-color: transparent;
-  width: 500px;
-  height: 500px;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
-}
-
-/* This container is needed to position the front and back side */
-.card {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 1.2s;
-  transform-style: preserve-3d;
-  z-index:-1;
-}
-
-/* Do an horizontal flip when you move the mouse over the flip box container */
-.card.is-flipped {
-  transform: rotateY(180deg);
-}
-
-/* Position the front and back side */
-.flip-card-front, .flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden; /* Safari */
-  backface-visibility: hidden;
-}
-
-/* Style the front side (fallback if image is missing) */
-.flip-card-front {
-  background-color: white;
-  color: black;
-}
-
-/* Style the back side */
-.flip-card-back {
-  background-color: white;
-  color: black;
-  padding: 30px; 
-  transform: rotateY(180deg);
-}
-.caption{
-  font-size:17px;
-  top:5px;
-  left:5px;
-  right:5px;
-}
-.question{
-  font-size:22px;
-  top:50%;
-  text-align: center;
-}
-.source {
-  font-size:12px;
-  position:absolute;
-  bottom:0px;
-  left:5px;
-}
 .center {
   display: block;
   margin-left: auto;
@@ -72,6 +10,9 @@
   background-color:white;
   color:black;
   transition: .6s;
+  width:300px;
+  height: 60px;
+  border-radius: 10px !important;
 }
 
 .refresh:hover{
@@ -79,15 +20,9 @@
   background-color:black;
   border-color:white;
 }
-
-.image{
-  width:500px;
-  height:500px;
-  object-fit:contain;
-}
-
-.card.zoom{
-  transform: scale(1.7) translate(0px,50px);
+.text{
+  line-height: 1.5;
+  font-weight: normal;
 }
 </style>
 <html>
@@ -96,62 +31,38 @@
 
      <meta name="viewport"
            content="width=device-width, initial-scale=1">
-      
-     <link rel="stylesheet" href=
-"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='red_eye.png') }}">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='eye.png') }}">
     </head>
-    <body style="background-color:black;color:white;">
-    <center>
-        <h1>Scenes of Attention</h1>
+    <body style="background-color:black; color:white;">
+
+    <center style='margin:50px 190px 20px 190px;'>
+    <h1>Scenes of Attention</h1>
     <br>
-    <div class="scene">
-        <div class="card" id='card'>
-            <div class="flip-card-front">
-            <img src="{{url_for('static',filename=image)}}" alt="Avatar" class="center image" id='image'>
-            </div>
-            <div class="flip-card-back">
-              <p class='caption'>{{info['caption']}}</p>
-              <br>
-              <p class='question'><strong>{{info['question']}}</strong></p>
-              <p class='source'>{{info['source']}}</p>
-            </div>
-        </div>
-    </div>
     <br>
-    <form action='/' method='get'>
-    <input type="submit" class='btn btn-lg refresh' value="Refresh" id='refresh'>
+    <h4 class='text'>Welcome to the final project of "The Attention Economy: Historical Perspectives" for the Spring 2021 semester!</h4>
+    <br>
+    <h2>What is this?</h2>
+    <h4 class='text'>For this project, we collected <strong>"Scenes of Attention"</strong>, which are images in which some form of attention is <em>"active."</em></h4>
+    <h4 class='text'>We sought to identify different approaches to <em>understanding, defining, and realizing attention</em> across the human experience and its histories.</h4>
+    <br>
+    <h2>How do I use it?</h2>
+    <h4 class='text'>We offer two modes for navigating these images: random and chronological. Random displays a random image and chronological allows you to browse through the images chronologically.</h4>
+    <h4 class='text'>Single-click on the image to flip it and read its caption. Double-click to enlarge the image and inspect it more closely.</h4>
+    <br>
+    <h4 class='text'>Special thanks to Dr. David Graham Burnett for guiding us through this semester and helping us develop the analytical tools for the search and captioning process for these images!</h4>
+    <br>
+    <br>
+    <br>
+    <form action='/scene' method='get'>
+          <input type="submit" class='refresh btn btn-lg' value="Start Exploring">
     </form>
     <br>
     <br>
     <br>
-    {% include 'footer.html' %}
+    <br>
+    <h5>Images sourced and captioned by Diego Zamalloa-Chion, David Borts, Eric Hardy, Shaffin Siddiqui, and Ellie Vogel.</h5>
+    </center>
+
     </body>
-    <script>
-    var card = document.querySelector('.card');
-    var timer = 0;
-    var prevent = false;
-    var large = false;
-    var front = true;
-    console.log(card);
-    card.onclick = function() {
-      timer = setTimeout(function() {
-        if (!prevent && !large) {
-          console.log('flip');
-          card.classList.toggle('is-flipped');
-          front = !front;
-        }
-        prevent = false;
-      },400);
-    }
-    card.ondblclick = function (e) {
-      clearTimeout(timer);
-      prevent = true;
-      if(front){
-        console.log('zoom');
-        card.classList.toggle('zoom');
-        large = !large;
-      }
-    }
-    </script>
 </html>
