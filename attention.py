@@ -402,6 +402,6 @@ def scene():
     if (order and index):
         image = info[int(index)]
     html = render_template('scene.html',
-            image=image, order=order, index=index)
+            image=image, order=order, index=index, num=len(info)-1)
     response = make_response(html)
     return response

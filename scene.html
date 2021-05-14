@@ -144,7 +144,7 @@
           {%endif%}
         </div>
         <div class="col-sm-3">
-          {%if index|int < 67%}
+          {%if index|int < num%}
             <form action='/scene' method='get'>
               <input type="submit" class='arrow btn btn-lg refresh' value=">>" id='next'>
               <input type="hidden" name="order" value="{{order}}">
